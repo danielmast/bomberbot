@@ -1,5 +1,14 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
+import threading
+import env
+
+
+class APIThread(threading.Thread):
+    def run(self):
+        httpd = HTTPServer(('localhost', 8080), API)
+        httpd.serve_forever()
+
 
 class API(BaseHTTPRequestHandler):
 
@@ -14,7 +23,7 @@ class API(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         body = self.rfile.read(content_length)
         state = json.loads(body)
-        print(state)
+        env.env.update(state)
         self.send_response(200)
         self.send_header('Content-Type', 'text/html')
         self.end_headers()
@@ -26,6 +35,3 @@ class API(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'GET, POST')
         self.send_header('Access-Control-Allow-Headers', 'accept, content-type')
         self.end_headers()
-
-httpd = HTTPServer(('localhost', 8080), API)
-httpd.serve_forever()
