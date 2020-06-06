@@ -24,5 +24,27 @@ class Stateprocessor():
 
     def state_array(self, state):
         """ Converts JSON state to numpy array """
-        state_array = np.zeros((12, 14, 7))
+        state_array = np.zeros((7, 13, 15))
+
+        p0 = state['players'][0]
+        state_array[0, p0['y'], p0['x']] = 1
+
+        p1 = state['players'][1]
+        state_array[1, p1['y'], p1['x']] = 1
+
+        for pu in state['powerups']:
+            state_array[2, pu['y'], pu['x']] = 1
+
+        for b in state['bombs']:
+            state_array[3, b['y'], b['x']] = 1
+
+        for e in state['explosions']:
+            state_array[4, e['y'], e['x']] = 1
+
+        for b in state['barrels']:
+            state_array[5, b['y'], b['x']] = 1
+
+        for w in state['walls']:
+            state_array[6, w['y'], w['x']] = 1
+
         return state_array
