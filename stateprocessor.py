@@ -1,3 +1,4 @@
+import numpy as np
 
 stateprocessor = None
 
@@ -14,8 +15,14 @@ class Stateprocessor():
     def process_state(self, state):
         reward = state['reward']
         self.env.update_return_value(reward)
-        action = self.agent.act(state)
+        state_array = self.state_array(state)
+        action = self.agent.act(state_array)
         self.env.step(action)
 
         if self.is_train:
             self.agent.update_replay_memory(self.prev_state, self.prev_action, reward, state)
+
+    def state_array(self, state):
+        """ Converts JSON state to numpy array """
+        state_array = np.zeros((12, 14, 7))
+        return state_array
