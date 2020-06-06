@@ -1,6 +1,8 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+import agent
 import env
 
 
@@ -22,8 +24,12 @@ class API(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         body = self.rfile.read(content_length)
+
         state = json.loads(body)
-        env.env.update(state)
+        env.env.update_return_value(state)
+        action = agent.agent.act(state)
+        env.env.step(action)
+
         self.send_response(200)
         self.send_header('Content-Type', 'text/html')
         self.end_headers()
