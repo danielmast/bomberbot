@@ -2,8 +2,7 @@ import json
 import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-import agent
-import env
+import stateprocessor
 
 
 class APIThread(threading.Thread):
@@ -26,9 +25,7 @@ class API(BaseHTTPRequestHandler):
         body = self.rfile.read(content_length)
 
         state = json.loads(body)
-        env.env.update_return_value(state)
-        action = agent.agent.act(state)
-        env.env.step(action)
+        stateprocessor.stateprocessor.process_state(state)
 
         self.send_response(200)
         self.send_header('Content-Type', 'text/html')
