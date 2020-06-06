@@ -1,5 +1,7 @@
 import numpy as np
 
+from constants import state_dim
+
 stateprocessor = None
 
 class Stateprocessor():
@@ -24,7 +26,7 @@ class Stateprocessor():
 
     def state_array(self, state):
         """ Converts JSON state to numpy array """
-        state_array = np.zeros((7, 13, 15))
+        state_array = np.zeros(state_dim)
 
         p0 = state['players'][0]
         state_array[0, p0['y'], p0['x']] = 1
