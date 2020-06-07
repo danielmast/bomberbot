@@ -1,6 +1,6 @@
 import numpy as np
 
-from constants import state_dim
+from constants import state_dim, batch_size
 
 stateprocessor = None
 
@@ -23,6 +23,7 @@ class Stateprocessor():
 
         if self.is_train and self.prev_state is not None:
             self.agent.update_replay_memory(self.prev_state, self.prev_action, reward, state_array)
+            self.agent.replay(batch_size)
 
         self.prev_state = state_array
         self.prev_action = action
