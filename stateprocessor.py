@@ -21,8 +21,11 @@ class Stateprocessor():
         action = self.agent.act(state_array)
         self.env.step(action)
 
-        if self.is_train:
-            self.agent.update_replay_memory(self.prev_state, self.prev_action, reward, state)
+        if self.is_train and self.prev_state is not None:
+            self.agent.update_replay_memory(self.prev_state, self.prev_action, reward, state_array)
+
+        self.prev_state = state_array
+        self.prev_action = action
 
     def state_array(self, state):
         """ Converts JSON state to numpy array """
