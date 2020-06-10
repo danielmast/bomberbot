@@ -1,3 +1,6 @@
+models_folder = 'models'
+returns_folder = 'returns'
+
 LEFT = 0
 RIGHT = 1
 UP = 2

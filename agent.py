@@ -13,6 +13,12 @@ class Agent():
     self.epsilon_decay = 0.995
     self.model = mlp(state_dim, action_size)
 
+  def load(self, name):
+    self.model.load_weights(name)
+
+  def save(self, name):
+    self.model.save_weights(name)
+
   def act(self, state):
     if np.random.rand() <= self.epsilon:
       return np.random.choice(self.action_size)

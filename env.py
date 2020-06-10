@@ -5,6 +5,9 @@ class Env:
     def __init__(self):
         self.return_value = 0
 
+    def reset(self):
+        self.return_value = 0
+
     def update_return_value(self, reward):
         self.return_value = self.return_value + reward
         print('return', self.return_value)
