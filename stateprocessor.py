@@ -34,11 +34,12 @@ class Stateprocessor():
         """ Converts JSON state to numpy array """
         state_array = np.zeros(state_dim)
 
-        p0 = state['players'][0]
-        state_array[0, p0['y'], p0['x']] = 1
+        if len(state['players']) == 2:
+            p0 = state['players'][0]
+            state_array[0, p0['y'], p0['x']] = 1
 
-        p1 = state['players'][1]
-        state_array[1, p1['y'], p1['x']] = 1
+            p1 = state['players'][1]
+            state_array[1, p1['y'], p1['x']] = 1
 
         for pu in state['powerups']:
             state_array[2, pu['y'], pu['x']] = 1
